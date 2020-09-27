@@ -58,7 +58,7 @@ is_plugged(void)
     char *plugged = (char *) malloc(sizeof(char) * 2);
     read_value("/sys/class/power_supply/AC/online", plugged);
 
-    if(strcmp(plugged, "+") == 0)
+    if(strcmp(plugged, "1") == 0)
     {
         plus = '+';
     }
