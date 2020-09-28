@@ -31,6 +31,13 @@ read_value(char *path, char *buffer)
     size_t i = 0;
 
     fp = fopen(path, "r");
+
+    if(fp == NULL)
+    {
+        fprintf(stderr, "Couldn't open file %s\n", path);
+        exit(1);
+    }
+
     while((buffer[i++] = fgetc(fp)) != EOF);
     buffer[i-2] = '\0'; 
 
@@ -131,7 +138,7 @@ main(void)
     time = datetime();
     time[strlen(time) - 3] = '\0';
 
-    printf("Updates: %d | %s | %d%%%c", updates, time, level, plugged);
+    printf("Updates: %d | %s | %d%%%c ", updates, time, level, plugged);
 
     return 0;
 }
