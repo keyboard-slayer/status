@@ -24,7 +24,6 @@ CFLAGS := 				\
 	-Wextra				\
 	-Werror				\
 	-I.					\
-	-ansi				\
 	-pedantic			\
 	-pedantic-errors	\
 

@@ -22,6 +22,7 @@
 #include <string.h>     
 #include <time.h>
 
+#define CHECKUPDATE "checkupdates+aur"
 
 void
 read_value(char *path, char *buffer)
@@ -32,6 +33,8 @@ read_value(char *path, char *buffer)
     fp = fopen(path, "r");
     while((buffer[i++] = fgetc(fp)) != EOF);
     buffer[i-2] = '\0'; 
+
+    fclose(fp);
 }
 
 
@@ -87,19 +90,48 @@ datetime(void)
 
 
 int 
+update_nbr(void)
+{
+    FILE *fp;
+    char line[1024];
+    int updates;
+
+    fp = popen(CHECKUPDATE, "r");
+    updates = 0;
+
+    if(fp == NULL)
+    {
+        fprintf(stderr, "Couldn't run the command %s\n", CHECKUPDATE);
+        exit(1);
+    }
+
+    while(fgets(line, sizeof(line), fp) != NULL)
+    {
+        updates++;
+    }
+
+    fclose(fp);
+
+    return updates;
+}
+
+
+int 
 main(void)
 {
     int level;
     char plugged;
     char *time;
+    int updates;
 
     level = battery_level();
     plugged = is_plugged();
+    updates = update_nbr();
 
     time = datetime();
     time[strlen(time) - 3] = '\0';
 
-    printf("%s | %d%%%c", time, level, plugged);
+    printf("Updates: %d | %s | %d%%%c", updates, time, level, plugged);
 
     return 0;
 }
