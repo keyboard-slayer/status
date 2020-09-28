@@ -138,7 +138,7 @@ main(void)
     time = datetime();
     time[strlen(time) - 3] = '\0';
 
-    printf("Updates: %d | %s | %d%%%c ", updates, time, level, plugged);
+    printf("Updates: %2d | %s | %3d%%%c ", updates, time, level, plugged);
 
     return 0;
 }
